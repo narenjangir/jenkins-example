@@ -20,11 +20,19 @@ pipeline {
             }
         }
 
-
-        stage ('Deployment Stage') {
-            steps {
-                withMaven(maven : 'maven') {
-                    sh 'mvn deploy'
+        stage('Artifactory') {
+            steps{
+            rtUpload (
+            serverId: "Artifactory",
+             spec:
+                """{
+                 "files": [
+                         {
+                             "pattern": "*.jar",
+                              "target": "generic-local/NJ/"
+                         }
+                          ]
+                     }"""
                 }
             }
         }
